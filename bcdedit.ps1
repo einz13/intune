@@ -14,7 +14,7 @@ Start-Transcript -Path $DefaultLogLocation
     # If OptIn value detected, proceed to disable the setting. Bitlocker is suspended for one reboot, and then the value is set.
     If ( BCDEDIT | findstr OptIn -eq $true	) {
             Write-Host "OptIn value detected in BCDEDIT, proceed to change settings."
-      			Write-Host "Suspending Bitlocker until rebooted, and changing to OptOut" 
+	    Write-Host "Suspending Bitlocker until rebooted, and changing to OptOut" 
             Suspend-Bitlocker C: -RebootCount 1
             BCDEDIT /set "{current}" nx OptOut
             If ( $bcdeditCheck -eq $true ) {
