@@ -27,16 +27,16 @@ $nx = BCDEDIT /enum | findstr nx
     # If OptIn value detected, proceed to disable the setting. Bitlocker is suspended for one reboot, and then the value is set.
     If ( $nx -like '*OptIn*' ) {
             Write-Host "OptIn value detected in BCDEDIT, proceed to change settings."
-			Write-Host "Suspending Bitlocker until rebooted, and changing to OptOut" 
+	    Write-Host "Suspending Bitlocker until rebooted, and changing to OptOut" 
             Suspend-Bitlocker C: -RebootCount 1
             BCDEDIT /set "{current}" nx OptOut
-			$nx = BCDEDIT /enum | findstr nx
+	    $nx = BCDEDIT /enum | findstr nx
             If ( $nx -like '*OptIn*' ) {
                 Write-Host "OptIn still seems to be enabled, check the log for errors: $DefaultLogLocation"
             } Else {
                 Write-Host "BCDEDIT values have been changed successfully."
-            }
-		} Else {
+            	}
+	} Else {
             Write-Host "No OptIn value detected in BCDEDIT, no changes will be made."
         }
 
